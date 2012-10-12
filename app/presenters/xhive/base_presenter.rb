@@ -6,7 +6,7 @@ module Xhive
     include ActionView::Context
     include Rails.application.routes.url_helpers
 
-    default_url_options[:host] = Rails.application.config.action_mailer.default_url_options.try(:[], :host) || "localhost"
+    default_url_options[:host] = load_default_url_options
 
     def initialize(object)
       @object = object
@@ -26,6 +26,11 @@ module Xhive
       define_method(name) do
         @object
       end
+    end
+
+    def load_default_url_options
+      options = Rails.application.config.action_mailer.default_url_options || {}
+      options.fetch(:host, "localhost")
     end
   end
 end
