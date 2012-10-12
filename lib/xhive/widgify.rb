@@ -3,7 +3,7 @@ module Xhive
     def widgify(*actions)
       actions.each do |action|
         remove_layout_for_action(action)
-        TagFactory.create_class(tag_name_for(action), route_for(action))
+        Xhive::TagFactory.create_class(tag_name_for(action), route_for(action))
       end
     end
 
