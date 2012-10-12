@@ -1,7 +1,8 @@
 require 'uri'
+require 'liquid'
 
 module Xhive
-  class BaseTag < Liquid::Tag
+  class BaseTag < ::Liquid::Tag
     # Public: initializes the tag. Also stores the passed attributes.
     #
     # Example: transforms this liquid meta tag {% some_tag attr1:foo attr2:bar %}
@@ -9,7 +10,7 @@ module Xhive
     #
     def initialize(tag_name, markup, tokens)
       @attributes = {}
-      markup.scan(Liquid::TagAttributes) do |key, value|
+      markup.scan(::Liquid::TagAttributes) do |key, value|
         # Remove single or double quotes around the quoted fragment before storing them in attributes
         @attributes[key.to_sym] = value.gsub("'",'').gsub('"','')
       end
