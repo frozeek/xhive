@@ -5,3 +5,4 @@ end
 
 require 'xhive/presentable'
 require 'xhive/widgify'
+require 'xhive/routes'
