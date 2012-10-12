@@ -11,7 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121012191751) do
+ActiveRecord::Schema.define(:version => 20121012193105) do
+
+  create_table "xhive_pages", :force => true do |t|
+    t.string   "name"
+    t.string   "title"
+    t.text     "content"
+    t.string   "meta_keywords"
+    t.text     "meta_description"
+    t.string   "slug"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
 
   create_table "xhive_sites", :force => true do |t|
     t.string   "name"
