@@ -5,6 +5,8 @@ module Xhive
     extend ::FriendlyId
     friendly_id :name, use: :slugged
 
+    include Xhive::Presentable
+
     attr_accessible :content, :meta_description, :meta_keywords, :name, :slug, :title
 
     validates :name, :presence => true
