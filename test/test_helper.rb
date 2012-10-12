@@ -3,6 +3,8 @@ ENV["RAILS_ENV"] = "test"
 
 require File.expand_path("../dummy/config/environment.rb",  __FILE__)
 require "rails/test_help"
+require "shoulda"
+require "shoulda-matchers"
 
 Rails.backtrace_cleaner.remove_silencers!
 
