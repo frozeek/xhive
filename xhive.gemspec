@@ -18,6 +18,9 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", "~> 3.2.8"
   s.add_dependency "jquery-rails"
   s.add_dependency "friendly_id", "~> 4.0.1"
+  s.add_dependency "cells"
+  s.add_dependency "slim"
+  s.add_dependency "liquid"
 
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "shoulda"
