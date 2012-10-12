@@ -4,3 +4,4 @@ module Xhive
 end
 
 require 'xhive/presentable'
+require 'xhive/widgify'
