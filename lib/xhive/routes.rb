@@ -54,7 +54,7 @@ module Xhive
       url = url.gsub('(.:format)', '')
       url
     rescue
-      fail XhiveRouteError, "#{controller_name}##{action}"
+      fail XhiveRouteError, "#{controller}##{action}"
     end
 
     class Route
