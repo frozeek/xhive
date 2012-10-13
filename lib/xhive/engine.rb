@@ -11,6 +11,7 @@ module Xhive
     end
     initializer "xhive.load_all_controller_classes" do
       ActiveSupport.on_load(:action_controller) do
+        Rails.application.reload_routes!
         Dir[Rails.root.join("app/controllers/**/*.rb")].each {|f| require f}
       end
     end
