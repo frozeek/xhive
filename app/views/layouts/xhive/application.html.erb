@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Xhive</title>
-  <%= stylesheet_link_tag    "xhive/application", :media => "all" %>
-  <%= javascript_include_tag "xhive/application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-
-<%= yield %>
-
-</body>
+  <head>
+    <title><%= @title || 'Xhive' %></title>
+    <%= stylesheet_link_tag    "xhive/application", :media => "all" %>
+    <%= javascript_include_tag "xhive/application" %>
+    <%= javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js" %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <%= yield %>
+    <%= initialize_widgets_loader %>
+  </body>
 </html>
