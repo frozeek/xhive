@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount Xhive::Engine => "/"
 
-  mount Xhive::Engine => "/xhive"
+  resources :posts, :only => :show
 end
