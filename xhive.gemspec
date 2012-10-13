@@ -10,10 +10,10 @@ Gem::Specification.new do |s|
   s.authors     = ["frozeek"]
   s.email       = ["marcelo@frozeek.com"]
   s.homepage    = "http://github.com/frozeek/xhive"
-  s.summary     = "Rails AJAX CMS"
-  s.description = "Rails AJAX CMS"
+  s.summary     = "Simple Rails AJAX CMS"
+  s.description = "Simple Rails AJAX CMS"
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
 
   s.add_dependency "rails", "~> 3.2.8"
   s.add_dependency "jquery-rails"
