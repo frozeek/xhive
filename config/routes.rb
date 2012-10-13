@@ -3,5 +3,7 @@ Xhive::Engine.routes.draw do
     get 'widget', :on => :member
   end
 
+  get 'widgets/*widget', :to => 'widgets#show'
+
   root :to => 'pages#show'
 end
