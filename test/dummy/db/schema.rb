@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121012193105) do
+ActiveRecord::Schema.define(:version => 20121013235306) do
 
   create_table "xhive_pages", :force => true do |t|
     t.string   "name"
@@ -22,13 +22,17 @@ ActiveRecord::Schema.define(:version => 20121012193105) do
     t.string   "slug"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
+    t.integer  "site_id"
   end
+
+  add_index "xhive_pages", ["site_id"], :name => "index_xhive_pages_on_site_id"
 
   create_table "xhive_sites", :force => true do |t|
     t.string   "name"
     t.string   "domain"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.integer  "home_page_id"
   end
 
 end
