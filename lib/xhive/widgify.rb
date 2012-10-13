@@ -1,5 +1,9 @@
 module Xhive
   module Widgify
+    # Public: remove layout from action and create Liquid tag class.
+    #
+    # actions - The array of actions to widgify.
+    #
     def widgify(*actions)
       actions.each do |action|
         remove_layout_for_action(action)
@@ -7,58 +11,42 @@ module Xhive
       end
     end
 
+    # Public: creates an array with the actions to exclude from layout.
+    #
     def self.extended(base)
       base.class_variable_set "@@widgets_list", []
     end
 
   private
 
+    # Private: returns the route definition for a controller#action pair.
+    #
+    # action - The string with the action name.
+    #
+    # Returns: the route definition. e.g. 'pages/:id/show'.
+    #
+    def route_for(action)
+      Xhive::Routes.route_for(controller_name, action)
+    end
+
+    # Private: builds the tag name for a given action.
+    #
+    # action - The string with the action name.
+    #
+    # Returns: the tag name.
+    #
     def tag_name_for(action)
       controller_name = self.name.gsub(/Controller|Xhive|::/, '')
       tag_name = "#{controller_name}#{action.capitalize}"
     end
 
-    def route_for(action)
-      routes = normalized_routes
-      url = routes.to_a.select {|route| route[:end_point] == "#{controller_name}##{action.to_s}"}.first.fetch(:path)
-      url = url.gsub('(.:format)', '')
-      url
-    rescue
-      fail WidgetRouteError, action
-    end
-
-    def normalized_routes
-      load_routes_for(Rails.application.routes) | load_routes_for(Xhive::Engine.routes)
-    end
-
-    def load_routes_for(router)
-      # TODO: find another way to get the routes prefix. This might get changed as is not public API.
-      mount_point = router._generate_prefix({}).to_s
-      routes = router.routes.to_a
-      routes.collect do |route|
-        if route.requirements[:controller] && route.requirements[:action]
-          controller = route.requirements[:controller].gsub(/rails\/|xhive\//, '')
-          action = route.requirements[:action]
-          path = route.path.spec.to_s
-          { :end_point => "#{controller}##{action}", :path => "#{mount_point}#{path}" }
-        end
-      end.compact
-    end
-
+    # Private: adds the action to the widgets list and sets the layout to false.
+    #
+    # action - The string with the action name.
+    #
     def remove_layout_for_action(action)
       self.class_variable_get("@@widgets_list") << action.to_sym
       self.layout :false, :only => self.class_variable_get("@@widgets_list")
-    end
-
-    class WidgetRouteError < StandardError
-      def initialize(action)
-        @action = action
-        super
-      end
-
-      def message
-        "No route was found for action :#{@action}"
-      end
     end
   end
 end
