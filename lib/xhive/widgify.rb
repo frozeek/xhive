@@ -28,13 +28,19 @@ module Xhive
     end
 
     def normalized_routes
-      routes = Rails.application.routes.routes.to_a | Xhive::Engine.routes.routes.to_a
+      load_routes_for(Rails.application.routes) | load_routes_for(Xhive::Engine.routes)
+    end
+
+    def load_routes_for(router)
+      # TODO: find another way to get the routes prefix. This might get changed as is not public API.
+      mount_point = router._generate_prefix({}).to_s
+      routes = router.routes.to_a
       routes.collect do |route|
         if route.requirements[:controller] && route.requirements[:action]
           controller = route.requirements[:controller].gsub(/rails\/|xhive\//, '')
           action = route.requirements[:action]
           path = route.path.spec.to_s
-          { :end_point => "#{controller}##{action}", :path => path }
+          { :end_point => "#{controller}##{action}", :path => "#{mount_point}#{path}" }
         end
       end.compact
     end
