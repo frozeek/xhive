@@ -18,7 +18,7 @@ module Xhive
   private
 
     def load_page
-      @page = Page.find(params[:id])
+      @page = current_site.pages.find(params[:id])
     end
   end
 end
