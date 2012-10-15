@@ -3,6 +3,7 @@ require "xhive/engine"
 module Xhive
 end
 
+require 'xhive/hashy'
 require 'xhive/presentable'
 require 'xhive/routes'
 require 'xhive/base_tag'
