@@ -2,6 +2,24 @@ module Xhive
   class ApplicationController < ActionController::Base
     prepend_before_filter :set_current_controller
 
+    helper_method :safe_user
+
+    # Private: Returns a safe user, e.i. a logged user or a guest user.
+    #
+    # This is just a placeholder and should be implemented in the host app.
+    #
+    # Example:
+    #
+    # def safe_user
+    #   current_user || AnonymousUser.new
+    # end
+    #
+    # Returns: an anonymous user.
+    #
+    def safe_user
+      AnonymousUser.new
+    end
+
   private
 
     def current_site
