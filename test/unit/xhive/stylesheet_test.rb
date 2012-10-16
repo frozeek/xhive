@@ -1,18 +1,17 @@
 require 'test_helper'
 
 module Xhive
-  class PageTest < ActiveSupport::TestCase
+  class StylesheetTest < ActiveSupport::TestCase
     should validate_presence_of(:name)
     should validate_uniqueness_of(:name).scoped_to(:site_id)
-    should validate_presence_of(:title)
     should validate_presence_of(:content)
     should validate_presence_of(:site)
 
     should 'be searchable by name' do
       site = Site.create(:name => "default")
-      page = Page.create(:name => "default", :title => "Default Page", :content => "<h1>Hello World</h1>", :site => site)
+      stylesheet = Stylesheet.create(:name => "default", :content => "body {}", :site => site)
 
-      assert_equal Page.find('default'), page
+      assert_equal Stylesheet.find('default'), stylesheet
     end
   end
 end

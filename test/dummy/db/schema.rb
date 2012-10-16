@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121013235306) do
+ActiveRecord::Schema.define(:version => 20121016224326) do
 
   create_table "xhive_pages", :force => true do |t|
     t.string   "name"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(:version => 20121013235306) do
     t.integer  "site_id"
   end
 
+  add_index "xhive_pages", ["site_id", "slug"], :name => "index_xhive_pages_on_site_id_and_slug", :unique => true
   add_index "xhive_pages", ["site_id"], :name => "index_xhive_pages_on_site_id"
 
   create_table "xhive_sites", :force => true do |t|
@@ -34,5 +35,16 @@ ActiveRecord::Schema.define(:version => 20121013235306) do
     t.datetime "updated_at",   :null => false
     t.integer  "home_page_id"
   end
+
+  create_table "xhive_stylesheets", :force => true do |t|
+    t.integer  "site_id"
+    t.string   "name"
+    t.text     "content"
+    t.string   "slug"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "xhive_stylesheets", ["site_id", "slug"], :name => "index_xhive_stylesheets_on_site_id_and_slug", :unique => true
 
 end
