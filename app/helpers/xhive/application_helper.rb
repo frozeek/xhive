@@ -1,7 +1,7 @@
 module Xhive
   module ApplicationHelper
     def initialize_widgets_loader
-      javascript_tag "WidgetLoader.load()"
+      "<script type='text/javascript'>WidgetLoader.load()</script>".html_safe
     end
   end
 end
