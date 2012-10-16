@@ -21,13 +21,30 @@ Using this models along with the xhive widgets you will be able to build a fully
 
 # Installation
 
-xhive is a gem and is also a Rails Engine. Just add it to your Gemfile and you will be good to go.
+Add xhive to your Gemfile
 
 `gem 'xhive'`
 
+Run bundle install
+
+`bundle install`
+
+Run xhive migrations
+
+```
+rake xhive:install:migrations
+rake db:migrate
+```
+
+Include the widgets loader just before your \<\\body\> tag.
+
+`<%= initialize_widgets_loader %>`
+
 # Usage
 
-## Turning your controller actions into widgets
+## Widgify
+
+### Turning your controller actions into widgets
 
 Let's say you have a Posts controller and you want to access the show action as a widget.
 
@@ -70,7 +87,7 @@ This tag will make the browser insert the post content asynchronously into the H
 
 xhive will also enforce the tag to include the :id parameter.
 
-## Using [cells](https://github.com/apotonick/cells) as reusable widgets
+### Using [cells](https://github.com/apotonick/cells) as reusable widgets
 
 Let's use the same example to illustrate the use of cells with xhive.
 
@@ -98,7 +115,7 @@ In this case, we need to tell xhive how we are mounting our widgets routes:
 ```
 config/initializers/xhive.rb
 
-XHive::Routes.draw do |router|
+Xhive::Routes.draw do |router|
   router.mount 'posts/:id', :to => 'posts#show'
 end
 ```
@@ -110,6 +127,71 @@ And that's it. You will now be able to insert the content of any post from withi
 This tag will make the browser insert the post content asynchronously into the HTML document.
 
 xhive will also enforce the tag to include the :id parameter.
+
+## CMS features
+
+Ok, I can include my cells and controller actions as widgets, but... how?
+
+xhive provides you with some basic CMS infrastructure.
+
+### Creating your first dynamic page
+
+To be able to use your widgets, you have to follow the following steps:
+
+Create a Site
+
+```
+site = Xhive::Site.create(:name => 'My awesome blog', :domain => 'localhost')
+```
+
+Create a Page
+
+```
+page = Xhive::Page.create(:name => 'home',
+                          :title => 'My blog page',
+                          :content => '<h1>Home</h1><p>{% posts_show id:1 %}</p>',
+                          :site => site)
+```
+
+Start the server
+
+Now you can access the page on http://localhost:3000/pages/home.
+
+This should display the post with id: 1 inside the home page.
+
+### Adding pages to your own custom data
+
+You can also use the xhive pages from within you own data.
+
+xhive provides the Xhive::Mapper to wire up your resources to xhive pages.
+
+Create a new page to display all the posts
+
+```
+posts_page = Xhive::Page.create(:name => 'posts',
+                                :title => 'Blog Posts',
+                                :content => '{% for post in posts %}{% posts_show id:post.id %}{% endfor %}',
+                                :site => site)
+```
+
+Create a new mapper record for the posts resources
+
+```
+mapper = Xhive::Mapper.create(:resource => 'Post', :action => 'index', :page => posts_page)
+```
+
+From your posts controller, render the posts page
+
+```
+class PostsController < ApplicationController
+  def index
+    @posts = Post.all.limit(10)
+    render_page_for 'Post', 'index', :posts => @posts
+  end
+end
+```
+
+Using this feature you can let the designers implement the HTML/CSS to display the posts in your site without your intervention.
 
 Disclaimer
 ==========
