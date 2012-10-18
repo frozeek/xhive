@@ -5,7 +5,7 @@ end
 
 require 'xhive/hashy'
 require 'xhive/presentable'
-require 'xhive/routes'
+require 'xhive/router'
 require 'xhive/base_tag'
 require 'xhive/tag_factory'
 require 'xhive/widgify'

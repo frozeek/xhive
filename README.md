@@ -115,7 +115,7 @@ In this case, we need to tell xhive how we are mounting our widgets routes:
 ```
 config/initializers/xhive.rb
 
-Xhive::Routes.draw do |router|
+Xhive::Router::Cells.draw do |router|
   router.mount 'posts/:id', :to => 'posts#show'
 end
 ```

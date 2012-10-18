@@ -26,7 +26,7 @@ module Xhive
     # Returns: the route definition. e.g. 'pages/:id/show'.
     #
     def route_for(action)
-      Xhive::Routes.route_for(controller_name, action)
+      Xhive::Router::Base.route_for(controller_name, action)
     end
 
     # Private: builds the tag name for a given action.
