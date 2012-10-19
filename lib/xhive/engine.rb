@@ -7,7 +7,10 @@ module Xhive
     initializer "xhive.extend_application_controller" do
       ActiveSupport.on_load(:action_controller) do
         extend Xhive::Widgify
+        extend Xhive::Controller
+
         include Xhive::ApplicationHelper
+
         helper_method :initialize_widgets_loader
       end
     end

@@ -4,6 +4,7 @@ module Xhive
 end
 
 require 'xhive/hashy'
+require 'xhive/controller'
 require 'xhive/presentable'
 require 'xhive/router'
 require 'xhive/base_tag'
