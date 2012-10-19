@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
   s.add_dependency "slim"
   s.add_dependency "liquid"
   s.add_dependency "coffee-rails", '~> 3.2.1'
+  s.add_dependency "sass-rails", '~> 3.2.3'
 
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "shoulda"
