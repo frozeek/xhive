@@ -36,6 +36,10 @@ rake xhive:install:migrations
 rake db:migrate
 ```
 
+Include the custom stylesheets in your head tag.
+
+`<%= include_custom_stylesheets %>`
+
 Include the widgets loader just before your \<\\body\> tag.
 
 `<%= initialize_widgets_loader %>`
@@ -105,9 +109,11 @@ end
 
 app/cells/posts/show.html.erb
 
-<h1><%= @post.title %></h1>
+<div class='post'>
+  <h1><%= @post.title %></h1>
 
-<p><%= @post.body %></p>
+  <p><%= @post.body %></p>
+</div>
 
 ```
 In this case, we need to tell xhive how we are mounting our widgets routes:
@@ -174,6 +180,17 @@ posts_page = Xhive::Page.create(:name => 'posts',
                                 :site => site)
 ```
 
+Create a new stylesheet to display your posts:
+
+```
+stylesheet = Xhive::Stylesheet.create(:name => 'Posts', 
+                                      :content => '.post {
+                                                     h1 { font-size: 20px; color: blue; }
+                                                     p { font-size: 12px; color: #000; }
+                                                   }',
+                                      :site => site)
+```
+
 Create a new mapper record for the posts resources
 
 ```
@@ -193,6 +210,14 @@ end
 
 Using this feature you can let the designers implement the HTML/CSS to display the posts in your site without your intervention.
 
+TODO
+====
+
+* Implement the Image model
+* Remove as many dependencies as possible
+* Improve test coverage
+
 Disclaimer
 ==========
 This is a work in progress and still a proof of concept. Use at your own risk :P.
+
