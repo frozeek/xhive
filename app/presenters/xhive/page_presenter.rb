@@ -8,7 +8,7 @@ module Xhive
     def render_content(options={})
       layout = ::Liquid::Template.parse("{{content}}").render({"content" => page.content})
       text = ::Liquid::Template.parse(layout).render(
-        {'page' => self, 'user' => controller.safe_user.presenter}.merge(options),
+        {'page' => self, 'user' => controller.safe_user.presenter}.merge(options.stringify_keys),
         :registers => {:controller => controller}
       )
       result = text.html_safe
