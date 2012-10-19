@@ -3,6 +3,9 @@ module Xhive
     attr_accessible :domain, :name, :home_page
 
     has_many :pages
+    has_many :mappers
+    has_many :stylesheets
+
     belongs_to :home_page, :class_name => 'Page'
 
     validates :name, :presence => true
