@@ -4,7 +4,7 @@ module Xhive
   class WidgetsController < ApplicationController
     def show
       # Looks for a route matching the request path
-      route = Xhive::Routes::Route.find(request.path)
+      route = Xhive::Router::Route.find(request.path)
       # Gets the parameters from the request path and the query string
       parameters = route.params_from(request.path).merge(params).with_indifferent_access
       # Renders the corresponding cell#action
