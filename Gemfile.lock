@@ -1,13 +1,13 @@
 PATH
   remote: .
   specs:
-    xhive (0.0.1)
+    xhive (1.0.0.pre)
       cells (= 3.8.5)
       coffee-rails (~> 3.2.1)
       friendly_id (~> 4.0.1)
       jquery-rails
       liquid
-      rails (~> 3.2.8)
+      rails (>= 3.2.0)
       sass-rails (~> 3.2.3)
       slim
 
