@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    xhive (1.0.3.pre)
+    xhive (1.0.4.pre)
       cells (= 3.8.5)
       friendly_id (~> 4.0.1)
       jquery-rails
