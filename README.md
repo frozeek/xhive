@@ -3,6 +3,8 @@ XHIVE
 
 xhive is a gem built for turning your Rails application into an AJAXified CMS.
 
+[![Code Quality](https://codeclimate.com/badge.png)](https://codeclimate.com/github/frozeek/xhive)
+
 # How it works
 
 xhive converts your controller actions or [cells](https://github.com/apotonick/cells) into AJAX widgets.
@@ -35,6 +37,10 @@ Run xhive migrations
 rake xhive:install:migrations
 rake db:migrate
 ```
+
+Include the xhive javascript in your head tag.
+
+`<%= javascript_include_tag "xhive/application" %>`
 
 Include the custom stylesheets in your head tag.
 
@@ -194,7 +200,7 @@ stylesheet = Xhive::Stylesheet.create(:name => 'Posts',
 Create a new mapper record for the posts resources
 
 ```
-mapper = Xhive::Mapper.create(:resource => 'Post', :action => 'index', :page => posts_page)
+mapper = Xhive::Mapper.create(:resource => 'posts', :action => 'index', :page => posts_page)
 ```
 
 From your posts controller, render the posts page
@@ -202,8 +208,8 @@ From your posts controller, render the posts page
 ```
 class PostsController < ApplicationController
   def index
-    @posts = Post.all.limit(10)
-    render_page_for 'Post', 'index', :posts => @posts
+    @posts = Post.limit(10)
+    render_page_with :posts => @posts
   end
 end
 ```
