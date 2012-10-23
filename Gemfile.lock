@@ -1,10 +1,12 @@
 PATH
   remote: .
   specs:
-    xhive (1.0.1.pre)
+    xhive (1.0.2.pre)
       cells (= 3.8.5)
       friendly_id (~> 4.0.1)
+      jquery-rails
       liquid
+      rails (~> 3.2)
       sass-rails (~> 3.2.3)
 
 GEM
@@ -121,7 +123,6 @@ PLATFORMS
 DEPENDENCIES
   debugger
   jquery-rails
-  rails (~> 3.2)
   shoulda
   sqlite3
   xhive!
