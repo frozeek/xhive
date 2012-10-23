@@ -3,6 +3,7 @@ XHIVE
 
 xhive is a gem built for turning your Rails application into an AJAXified CMS.
 
+[![Build Status](https://secure.travis-ci.org/frozeek/xhive.png)](http://travis-ci.org/frozeek/xhive)
 [![Code Quality](https://codeclimate.com/badge.png)](https://codeclimate.com/github/frozeek/xhive)
 
 # How it works
