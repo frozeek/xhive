@@ -9,9 +9,11 @@ module Xhive
       "<link href='/stylesheets/custom.css' media='all' rel='stylesheet' type='text/css'/>".html_safe
     end
 
-    def render_page_for(resource, action, options={})
-      page = current_site.mappers.page_for(resource, action)
+    def render_page_with(options={})
+      page = current_site.mappers.page_for(controller_name, action_name)
       render :inline => page.presenter.render_content(options), :layout => true
+    rescue
+      render
     end
 
     def current_site
