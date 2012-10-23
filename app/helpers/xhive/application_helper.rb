@@ -5,12 +5,13 @@ module Xhive
     end
 
     def include_custom_stylesheets
-      "<link href='#{stylesheets_path}' media='all' rel='stylesheet' type='text/css'/>".html_safe
+      # TODO: merge engine routes with Rails application routes
+      "<link href='/stylesheets/custom.css' media='all' rel='stylesheet' type='text/css'/>".html_safe
     end
 
     def render_page_for(resource, action, options={})
       page = current_site.mappers.page_for(resource, action)
-      render :text => page.presenter.render_content(options)
+      render :inline => page.presenter.render_content(options), :layout => true
     end
 
     def current_site
