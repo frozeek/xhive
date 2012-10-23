@@ -10,6 +10,7 @@ module Xhive
       #   end
       #
       def self.draw
+        class_variable_set("@@routes", [])
         yield self
       end
 
@@ -20,15 +21,28 @@ module Xhive
       #
       # Example: mount 'my_widget', :to => 'my_cell#action'
       #
+      # It stores the route in internal storage for later processing
+      #
       def self.mount(route, options)
-        cell, action = options[:to].split('#')
-        widgets_base_route = Base.route_for('widgets', 'show').gsub(/\/\*\w*$/, '')
-        widget_route = "#{widgets_base_route}/#{route}"
-        tag_class_name = "#{cell}_#{action}".classify
+        @@routes << { :path => route, :options => options }
+      end
 
-        Route.add(widget_route, cell.classify, action)
+      # Public: process the previously stored routes
+      #
+      def self.process_routes
+        @@routes.each do |route|
+          path = route[:path]
+          options = route[:options]
 
-        Xhive::TagFactory.create_class(tag_class_name, widget_route)
+          cell, action = options[:to].split('#')
+          widgets_base_route = Base.route_for('widgets', 'show').gsub(/\/\*\w*$/, '')
+          widget_route = "#{widgets_base_route}/#{path}"
+          tag_class_name = "#{cell}_#{action}".camelize
+
+          Route.add(widget_route, cell.camelize, action)
+
+          Xhive::TagFactory.create_class(tag_class_name, widget_route)
+        end
       end
     end
   end
