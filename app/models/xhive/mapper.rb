@@ -1,6 +1,6 @@
 module Xhive
   class Mapper < ActiveRecord::Base
-    attr_accessible :action, :page, :site, :resource
+    attr_accessible :action, :page_id, :site_id, :resource
 
     belongs_to :site
     belongs_to :page

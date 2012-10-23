@@ -1,6 +1,6 @@
 module Xhive
   class Site < ActiveRecord::Base
-    attr_accessible :domain, :name, :home_page
+    attr_accessible :domain, :name, :home_page_id
 
     has_many :pages
     has_many :mappers

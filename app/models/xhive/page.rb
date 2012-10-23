@@ -7,7 +7,7 @@ module Xhive
 
     include Xhive::Presentable
 
-    attr_accessible :content, :meta_description, :meta_keywords, :name, :slug, :title, :site
+    attr_accessible :content, :meta_description, :meta_keywords, :name, :slug, :title, :site_id
 
     belongs_to :site
 
