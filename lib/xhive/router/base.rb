@@ -24,7 +24,7 @@ module Xhive
         url = url.gsub('(.:format)', '')
         url
       rescue
-        fail Error, "#{controller}##{action}"
+        Rails.logger.error "#{Error.class.name}:#{controller}##{action}"
       end
 
     private

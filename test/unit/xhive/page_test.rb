@@ -9,8 +9,8 @@ module Xhive
     should validate_presence_of(:site)
 
     should 'be searchable by name' do
-      site = Site.create(:name => "default")
-      page = Page.create(:name => "default", :title => "Default Page", :content => "<h1>Hello World</h1>", :site => site)
+      site = Site.create(:name => "default", :domain => 'localhost')
+      page = site.pages.create(:name => "default", :title => "Default Page", :content => "<h1>Hello World</h1>")
 
       assert_equal Page.find('default'), page
     end

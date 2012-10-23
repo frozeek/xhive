@@ -8,15 +8,15 @@ module Xhive
     should validate_presence_of(:site)
 
     should 'be searchable by name' do
-      site = Site.create(:name => "default")
-      stylesheet = Stylesheet.create(:name => "default", :content => "body {}", :site => site)
+      site = Site.create(:name => "default", :domain => 'localhost')
+      stylesheet = site.stylesheets.create(:name => "default", :content => "body {}")
 
       assert_equal Stylesheet.find('default'), stylesheet
     end
 
     should 'check CSS syntax' do
-      site = Site.create(:name => "default")
-      stylesheet = Stylesheet.new(:name => 'test', :content => 'body { color: #fff; }', :site => site)
+      site = Site.create(:name => "default", :domain => 'localhost')
+      stylesheet = site.stylesheets.build(:name => 'test', :content => 'body { color: #fff; }')
       assert stylesheet.valid?, 'stylesheet should be valid'
 
       stylesheet.content = 'this is not css'
