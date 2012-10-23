@@ -14,9 +14,8 @@ module Xhive
         helper_method :initialize_widgets_loader
       end
     end
-    initializer "xhive.load_all_controller_classes" do
+    initializer "xhive.load_all_controller_classes", :after=> :disable_dependency_loading do
       ActiveSupport.on_load(:action_controller) do
-        Rails.application.reload_routes!
         Dir[Rails.root.join("app/controllers/**/*.rb")].each {|f| require f}
       end
     end

@@ -10,7 +10,6 @@ module Xhive
       #   end
       #
       def self.draw
-        Rails.application.reload_routes!
         yield self
       end
 
