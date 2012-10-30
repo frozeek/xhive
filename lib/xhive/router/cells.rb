@@ -30,6 +30,8 @@ module Xhive
       # Public: process the previously stored routes
       #
       def self.process_routes
+        return unless defined?(@@routes)
+
         @@routes.each do |route|
           path = route[:path]
           options = route[:options]
