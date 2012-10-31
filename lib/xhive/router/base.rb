@@ -19,12 +19,15 @@ module Xhive
       # Returns: the route definition. e.g. 'pages/:id/show'.
       #
       def self.route_for(controller, action)
+        url = ''
         routes = normalized_routes
         url = routes.to_a.select {|route| route[:end_point] == "#{controller}##{action}"}.first.fetch(:path)
         url = url.gsub('(.:format)', '')
         url
       rescue
         Rails.logger.error "#{Error.class.name}:#{controller}##{action}"
+      ensure
+        return url
       end
 
     private
