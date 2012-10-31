@@ -26,7 +26,7 @@ module Xhive
     # Returns: the route definition. e.g. 'pages/:id/show'.
     #
     def route_for(action)
-      Xhive::Router::Base.route_for(controller_name, action)
+      Xhive::Router::Base.route_for(controller_path, action)
     end
 
     # Private: builds the tag name for a given action.
@@ -36,8 +36,7 @@ module Xhive
     # Returns: the tag name.
     #
     def tag_name_for(action)
-      controller_name = self.name.gsub(/Controller|Xhive|::/, '')
-      tag_name = "#{controller_name}#{action.capitalize}"
+      tag_name = "#{controller_name.capitalize}#{action.capitalize}"
     end
 
     # Private: adds the action to the widgets list and sets the layout to false.
