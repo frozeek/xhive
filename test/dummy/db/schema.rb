@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121019185702) do
+ActiveRecord::Schema.define(:version => 20121031192552) do
 
   create_table "xhive_mappers", :force => true do |t|
     t.string   "resource"
@@ -20,8 +20,10 @@ ActiveRecord::Schema.define(:version => 20121019185702) do
     t.integer  "site_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "key"
   end
 
+  add_index "xhive_mappers", ["site_id", "resource", "action", "key"], :name => "index_xhive_mappers_on_site_id_and_resource_and_action_and_key"
   add_index "xhive_mappers", ["site_id", "resource", "action"], :name => "index_xhive_mappers_on_site_id_and_resource_and_action"
 
   create_table "xhive_pages", :force => true do |t|

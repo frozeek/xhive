@@ -8,8 +8,8 @@ module Xhive
       "<link href='#{xhive.stylesheets_path}' media='all' rel='stylesheet' type='text/css'/>".html_safe
     end
 
-    def render_page_with(options={})
-      page = current_site.mappers.page_for(controller_path, action_name)
+    def render_page_with(key = nil, options={})
+      page = current_site.mappers.page_for(controller_path, action_name, key)
       render :inline => page.presenter.render_content(options), :layout => true
     rescue
       render
