@@ -5,6 +5,7 @@ module Xhive
     has_many :pages
     has_many :mappers
     has_many :stylesheets
+    has_many :images
 
     belongs_to :home_page, :class_name => 'Page'
 

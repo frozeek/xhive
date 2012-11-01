@@ -11,7 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121031192552) do
+ActiveRecord::Schema.define(:version => 20121101124925) do
+
+  create_table "xhive_images", :force => true do |t|
+    t.string   "image"
+    t.string   "title"
+    t.integer  "site_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "xhive_images", ["site_id", "image"], :name => "index_xhive_images_on_site_id_and_image"
 
   create_table "xhive_mappers", :force => true do |t|
     t.string   "resource"
