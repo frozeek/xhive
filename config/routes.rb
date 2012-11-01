@@ -6,6 +6,7 @@ Xhive::Engine.routes.draw do
   get 'stylesheets/custom.css', :to => 'stylesheets#index', :as => :stylesheets, :format => :css
 
   resources :stylesheets, :only => :show, :format => :css
+  resources :images, :only => :show
 
   get 'widgets/*widget', :to => 'widgets#show'
 
