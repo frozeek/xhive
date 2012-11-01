@@ -1,32 +1,35 @@
-class ImageUploader < CarrierWave::Uploader::Base
-  include CarrierWave::MiniMagick
+require 'carrierwave'
 
-  include Sprockets::Helpers::RailsHelper
-  include Sprockets::Helpers::IsolatedHelper
+module Xhive
+  class ImageUploader < ::CarrierWave::Uploader::Base
+    include ::CarrierWave::MiniMagick
 
-  def store_dir
-    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
-  end
+    include ::Sprockets::Helpers::RailsHelper
+    include ::Sprockets::Helpers::IsolatedHelper
 
-  def default_url
-    asset_path "fallback/" + [version_name, "default.png"].compact.join('_')
-  end
+    def store_dir
+      "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    end
 
-  def url
-    super.gsub('+', '%2B')
-  end
+    def default_url
+      asset_path "fallback/" + [version_name, "default.png"].compact.join('_')
+    end
 
-  version :thumb do
-    process :resize_to_limit => [144, 94]
-  end
+    def url
+      super.gsub('+', '%2B')
+    end
 
-  def extension_white_list
-    %w(jpg jpeg gif png)
-  end
+    version :thumb do
+      process :resize_to_limit => [144, 94]
+    end
 
-  # For heroku read-only filesystem
-  def cache_dir
-    "#{Rails.root}/tmp/uploads"
+    def extension_white_list
+      %w(jpg jpeg gif png)
+    end
+
+    # For heroku read-only filesystem
+    def cache_dir
+      "#{Rails.root}/tmp/uploads"
+    end
   end
 end
-
