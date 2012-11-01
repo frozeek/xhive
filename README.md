@@ -204,13 +204,26 @@ Create a new mapper record for the posts resources
 mapper = Xhive::Mapper.create(:resource => 'posts', :action => 'index', :page => posts_page)
 ```
 
+Create a new mapper record for some specific post
+
+```
+mapper = Xhive::Mapper.create(:resource => 'posts', :action => 'show', :key => '1', :page => posts_page)
+```
+
 From your posts controller, render the posts page
 
 ```
 class PostsController < ApplicationController
+  # This will render the page associated with the index action
   def index
     @posts = Post.limit(10)
     render_page_with :posts => @posts
+  end
+
+  # This will render the page associated with the specific post
+  def show
+    @post = Post.find(params[:id])
+    render_page_with @post.id, :post => @post
   end
 end
 ```
@@ -220,7 +233,6 @@ Using this feature you can let the designers implement the HTML/CSS to display t
 TODO
 ====
 
-* Implement the Image model
 * Remove as many dependencies as possible
 * Improve test coverage
 
