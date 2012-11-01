@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency "friendly_id", "~> 4.0.1"
   s.add_dependency "liquid"
   s.add_dependency "sass-rails", '~> 3.2.3'
+  s.add_dependency "carrierwave"
 
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "shoulda"
