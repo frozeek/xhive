@@ -9,7 +9,7 @@ module Xhive
     end
 
     def render_page_with(key = nil, options={})
-      page = current_site.mappers.page_for(controller_path, action_name, key)
+      page = Xhive::Mapper.page_for(current_site, controller_path, action_name, key)
       render :inline => page.presenter.render_content(options), :layout => true
     rescue
       render
