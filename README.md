@@ -201,13 +201,13 @@ stylesheet = Xhive::Stylesheet.create(:name => 'Posts',
 Create a new mapper record for the posts resources
 
 ```
-mapper = Xhive::Mapper.create(:resource => 'posts', :action => 'index', :page => posts_page)
+mapper = Xhive::Mapper.map_resource(site, posts_page, 'posts', 'index')
 ```
 
-Create a new mapper record for some specific post
+If you want to map the page to a specific post
 
 ```
-mapper = Xhive::Mapper.create(:resource => 'posts', :action => 'show', :key => '1', :page => posts_page)
+mapper = Xhive::Mapper.map_resource(site, posts_page, 'posts', 'index', post.id)
 ```
 
 From your posts controller, render the posts page
