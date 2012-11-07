@@ -34,22 +34,28 @@ Run bundle install
 
 Run xhive migrations
 
-```
+```bash
 rake xhive:install:migrations
 rake db:migrate
 ```
 
 Include the xhive javascript in your head tag.
 
-`<%= javascript_include_tag "xhive/application" %>`
+```erb
+<%= javascript_include_tag "xhive/application" %>
+```
 
 Include the custom stylesheets in your head tag.
 
-`<%= include_custom_stylesheets %>`
+```erb
+<%= include_custom_stylesheets %>
+```
 
 Include the widgets loader just before your \<\\body\> tag.
 
-`<%= initialize_widgets_loader %>`
+```erb
+<%= initialize_widgets_loader %>
+```
 
 # Usage
 
@@ -59,29 +65,33 @@ Include the widgets loader just before your \<\\body\> tag.
 
 Let's say you have a Posts controller and you want to access the show action as a widget.
 
-```
-app/controller/posts_controller.rb
+`app/controller/posts_controller.rb`
 
+```ruby
 class PostsController < ApplicationController
   def show
     @post = Post.find(params[:id])
   end
 end
+```
 
-app/views/posts/show.html.erb
+`app/views/posts/show.html.erb`
 
+```erb
 <h1><%= @post.title %></h1>
 
 <p><%= @post.body %></p>
-
-config/routes.rb
-
-resources :posts, :only => [:show]
-
 ```
+
+`config/routes.rb`
+
+```ruby
+resources :posts, :only => [:show]
+```
+
 Just tell xhive to *widgify* your action:
 
-```
+```ruby
 class PostsController < ApplicationController
   widgify :show
 
@@ -90,9 +100,10 @@ class PostsController < ApplicationController
   end
 end
 ```
+
 And that's it. You will now be able to insert the content of any post from within an HTML template using:
 
-{% posts_show id:1234 %}
+`{% posts_show id:1234 %}`
 
 This tag will make the browser insert the post content asynchronously into the HTML document.
 
@@ -104,30 +115,32 @@ Let's use the same example to illustrate the use of cells with xhive.
 
 We have a Posts cell and we want to use the show method as an AJAX widget.
 
-```
-app/cells/posts_cell.rb
+`app/cells/posts_cell.rb`
 
+```ruby
 class PostsCell < Cell::Rails
   def show(params)
     @post = params[:id]
     render
   end
 end
+```
 
-app/cells/posts/show.html.erb
+`app/cells/posts/show.html.erb`
 
+```erb
 <div class='post'>
   <h1><%= @post.title %></h1>
 
   <p><%= @post.body %></p>
 </div>
-
 ```
+
 In this case, we need to tell xhive how we are mounting our widgets routes:
 
-```
-config/initializers/xhive.rb
+`config/initializers/xhive.rb`
 
+```ruby
 Xhive::Router::Cells.draw do |router|
   router.mount 'posts/:id', :to => 'posts#show'
 end
@@ -135,7 +148,7 @@ end
 
 And that's it. You will now be able to insert the content of any post from within an HTML template using:
 
-{% posts_show id:1234 %}
+`{% posts_show id:1234 %}`
 
 This tag will make the browser insert the post content asynchronously into the HTML document.
 
@@ -153,13 +166,13 @@ To be able to use your widgets, you have to follow the following steps:
 
 Create a Site
 
-```
+```ruby
 site = Xhive::Site.create(:name => 'My awesome blog', :domain => 'localhost')
 ```
 
 Create a Page
 
-```
+```ruby
 page = Xhive::Page.create(:name => 'home',
                           :title => 'My blog page',
                           :content => '<h1>Home</h1><p>{% posts_show id:1 %}</p>',
@@ -180,7 +193,7 @@ xhive provides the Xhive::Mapper to wire up your resources to xhive pages.
 
 Create a new page to display all the posts
 
-```
+```ruby
 posts_page = Xhive::Page.create(:name => 'posts',
                                 :title => 'Blog Posts',
                                 :content => '{% for post in posts %}{% posts_show id:post.id %}{% endfor %}',
@@ -189,7 +202,7 @@ posts_page = Xhive::Page.create(:name => 'posts',
 
 Create a new stylesheet to display your posts:
 
-```
+```ruby
 stylesheet = Xhive::Stylesheet.create(:name => 'Posts', 
                                       :content => '.post {
                                                      h1 { font-size: 20px; color: blue; }
@@ -200,19 +213,19 @@ stylesheet = Xhive::Stylesheet.create(:name => 'Posts',
 
 Create a new mapper record for the posts resources
 
-```
+```ruby
 mapper = Xhive::Mapper.map_resource(site, posts_page, 'posts', 'index')
 ```
 
 If you want to map the page to a specific post
 
-```
+```ruby
 mapper = Xhive::Mapper.map_resource(site, posts_page, 'posts', 'index', post.id)
 ```
 
 From your posts controller, render the posts page
 
-```
+```ruby
 class PostsController < ApplicationController
   # This will render the page associated with the index action
   def index
