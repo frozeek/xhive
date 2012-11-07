@@ -13,8 +13,8 @@ module Xhive
       )
       result = text.html_safe
     rescue => e
-      logger.debug "#{e.class.name}: #{e.message}"
-      logger.debug e.backtrace.join("/n")
+      logger.error "#{e.class.name}: #{e.message}"
+      logger.error e.backtrace.join("/n")
       result = ''
     ensure
       return result
