@@ -26,17 +26,35 @@ module Xhive
     def render(context)
       if (errors = check_parameters).empty?
         process_parameters(context)
-        html = "<div "
-        html << " data-widget='true'"
-        html << " data-url='#{rest_url}'"
-        html << " data-params='#{parameters_to_args}'"
-        html << "></div>"
+        route = Xhive::Router::Route.find(rest_url)
+        render_inline?(route, context) ? render_inline(route) : render_widget_tag
       else
         errors
       end
     end
 
   private
+
+    def render_widget_tag
+      html = "<div "
+      html << " data-widget='true'"
+      html << " data-url='#{rest_url}'"
+      html << " data-params='#{parameters_to_args}'"
+      html << "></div>"
+      html
+    end
+
+    def render_inline(route)
+      # TODO: extend this to the controller based widgets
+      result = Cell::Base.render_cell_for(route.klass.underscore, route.action, @attributes)
+    rescue NoMethodError
+      logger.error "Please check that your cell inherits from Cell:Base and that you are passing all the arguments to the cell action"
+    rescue NameError => e
+      logger.error "#{e.class.name}: #{e.message}"
+    ensure
+      return result
+    end
+
 
     # Private: checks the attributes to see if there is any required
     #          param missing.
@@ -82,6 +100,12 @@ module Xhive
       else
         value
       end
+    end
+
+    # Private: checks if the tag is for inline rendering or not
+    #
+    def render_inline?(route, context)
+      route.inline && (context['inline'].nil? || context['inline'])
     end
   end
 end

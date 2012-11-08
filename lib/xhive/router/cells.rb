@@ -39,9 +39,9 @@ module Xhive
           cell, action = options[:to].split('#')
           widgets_base_route = Base.route_for('widgets', 'show').gsub(/\/\*\w*$/, '')
           widget_route = "#{widgets_base_route}/#{path}"
-          tag_class_name = "#{cell}_#{action}".camelize
+          tag_class_name = "#{cell}_#{action}".classify.gsub('::', '')
 
-          Route.add(widget_route, cell.camelize, action)
+          Route.add(widget_route, cell, action, options.except(:to))
 
           Xhive::TagFactory.create_class(tag_class_name, widget_route)
         end

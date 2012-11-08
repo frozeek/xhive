@@ -3,13 +3,14 @@ module Xhive
     class Route
       @@routes = []
 
-      attr :route, :klass, :action, :args
+      attr :route, :klass, :action, :args, :inline
 
-      def initialize(route, klass, action)
+      def initialize(route, klass, action, opts={})
         @route = route
         @klass = klass
         @action = action
         @args = extract_args(route)
+        @inline = opts[:inline] || false
       end
 
       # Public: adds a new route to the collection.
@@ -17,9 +18,10 @@ module Xhive
       # route  - The String containing the route definition.
       # klass  - The String containing the Controller/Cell class name.
       # action - The String containing the action name.
+      # inline - The Boolean indicating if it should be rendered inline or as an AJAX widget.
       #
-      def self.add(route, klass, action)
-        @@routes << new(route, klass, action)
+      def self.add(route, klass, action, inline)
+        @@routes << new(route, klass, action, inline)
       end
 
       # Public: finds the route that matches the url.
