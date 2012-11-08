@@ -3,7 +3,7 @@ module Xhive
     class Route
       @@routes = []
 
-      attr :route, :klass, :action, :args, :inline
+      attr :route, :klass, :action, :args, :inline, :as
 
       def initialize(route, klass, action, opts={})
         @route = route
@@ -11,6 +11,7 @@ module Xhive
         @action = action
         @args = extract_args(route)
         @inline = opts[:inline] || false
+        @as = opts[:as].to_s || klass
       end
 
       # Public: adds a new route to the collection.

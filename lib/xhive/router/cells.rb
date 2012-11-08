@@ -39,7 +39,7 @@ module Xhive
           cell, action = options[:to].split('#')
           widgets_base_route = Base.route_for('widgets', 'show').gsub(/\/\*\w*$/, '')
           widget_route = "#{widgets_base_route}/#{path}"
-          tag_class_name = "#{cell}_#{action}".classify.gsub('::', '')
+          tag_class_name = (options[:as] || "#{cell}_#{action}").to_s.classify.gsub('::', '')
 
           Route.add(widget_route, cell, action, options.except(:to))
 
