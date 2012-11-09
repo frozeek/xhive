@@ -12,6 +12,8 @@ module Xhive
         include Xhive::ApplicationHelper
 
         helper_method :initialize_widgets_loader, :include_custom_stylesheets
+
+        self.class_variable_set('@@current_controller', nil)
       end
     end
     initializer "xhive.load_all_controller_classes", :after=> :disable_dependency_loading do

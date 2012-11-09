@@ -6,8 +6,6 @@ module Xhive
 
     def self.extended(base)
       base.class_eval do
-        @@current_controller = nil
-
         include InstanceMethods
 
         prepend_before_filter :set_current_controller
