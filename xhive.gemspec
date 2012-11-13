@@ -25,7 +25,8 @@ Gem::Specification.new do |s|
   s.add_dependency "mini_magick"
 
   s.add_development_dependency "sqlite3"
-  s.add_development_dependency "shoulda"
+  s.add_development_dependency "shoulda-context"
+  s.add_development_dependency "shoulda-matchers"
   s.add_development_dependency "debugger"
   s.add_development_dependency "mocha"
 end
