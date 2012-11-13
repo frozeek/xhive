@@ -15,5 +15,9 @@ module Xhive
     validates :title, :presence => true
     validates :content, :presence => true
     validates :site, :presence => true
+
+    def present_content(opts={})
+      presenter.render_content(opts)
+    end
   end
 end

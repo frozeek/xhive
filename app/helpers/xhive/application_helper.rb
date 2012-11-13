@@ -19,7 +19,7 @@ module Xhive
     def render_page_with(key = nil, options={}, &block)
       page = Xhive::Mapper.page_for(current_site, controller_path, action_name, key)
       if page.present?
-        render :inline => page.presenter.render_content(options), :layout => true
+        render :inline => page.present_content(options), :layout => true
       else
         block_given? ? yield : render
       end

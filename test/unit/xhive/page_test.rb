@@ -14,5 +14,12 @@ module Xhive
 
       assert_equal Page.find('default'), page
     end
+
+    should 'be able to present content' do
+      page = Xhive::Page.new
+      page.stubs(:presenter).returns(stub(:render_content => 'my content'))
+
+      assert_equal page.present_content, 'my content'
+    end
   end
 end
