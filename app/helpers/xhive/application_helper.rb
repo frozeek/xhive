@@ -8,11 +8,21 @@ module Xhive
       "<link href='#{xhive.stylesheets_path}' media='all' rel='stylesheet' type='text/css'/>".html_safe
     end
 
-    def render_page_with(key = nil, options={})
+    # Public: looks for a map and renders the corresponding page.
+    #
+    # key     - The String containing the key to look for (default = nil).
+    # options - The Hash the data to pass to the rendered page.
+    # block   - The block for a custom render if no map is found.
+    #
+    # Returns: the rendered page.
+    #
+    def render_page_with(key = nil, options={}, &block)
       page = Xhive::Mapper.page_for(current_site, controller_path, action_name, key)
-      render :inline => page.presenter.render_content(options), :layout => true
-    rescue
-      render
+      if page.present?
+        render :inline => page.presenter.render_content(options), :layout => true
+      else
+        block_given? ? yield : render
+      end
     end
 
     def current_site
