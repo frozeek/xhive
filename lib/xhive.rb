@@ -5,6 +5,7 @@ end
 
 require 'xhive/hashy'
 require 'xhive/liquid_wrapper'
+require 'xhive/mailer'
 require 'xhive/controller'
 require 'xhive/presentable'
 require 'xhive/router'

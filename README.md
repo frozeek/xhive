@@ -154,6 +154,31 @@ This tag will make the browser insert the post content asynchronously into the H
 
 xhive will also enforce the tag to include the :id parameter.
 
+You can customize the tag invocation name by using the :as symbolized option:
+
+```ruby
+Xhive::Router::Cells.draw do |router|
+  router.mount 'posts/:id', :to => 'posts#show', :as => 'show_post'
+end
+```
+Then you can insert the tag using the following snippet:
+
+`{% show_post id:1234 %}`
+
+You can also force the cell widget to be rendered inline instead of using AJAX.
+
+Just include the :inline symbolized option:
+
+```ruby
+Xhive::Router::Cells.draw do |router|
+  router.mount 'posts/:id', :to => 'posts#show', :as => 'show_post', :inline => true
+end
+```
+
+This is also useful when using stylesheet tags inside email pages.
+
+Caveat: the inline feature only works for Cell:Base cells.
+
 ## CMS features
 
 Ok, I can include my cells and controller actions as widgets, but... how?
@@ -243,6 +268,70 @@ end
 
 Using this feature you can let the designers implement the HTML/CSS to display the posts in your site without your intervention.
 
+## ActionMailer integration
+
+Using xhive you can extend the CMS capabilities to your system generated emails.
+
+```ruby
+class Notifications < ActionMailer::Base
+  def welcome(site, user)
+    @user = user
+    @link = root_url
+
+    mailer = Xhive::Mailer.new(site, self)
+    mailer.send :to => user.email, :subject => 'Welcome!'
+  end
+end
+```
+In order to use this, you must create a mapper for this specific email action:
+
+```ruby
+mapper = site.mappers.new(:resource => 'notifications', :action => 'welcome')
+mapper.page = my_awesome_email_page
+mapper.save
+```
+
+You can use your instance variables from within the dynamic page:
+
+```
+<p>Dear {{user.first_name}}</p>
+
+<p>Welcome to our awesome site</p>
+
+<p>Click <a href='{{link}}'>here</a> to start!</p>
+
+```
+
+If you want to use different pages for different, e.g. user categories, you can pass the user category to the mailer initializer:
+
+```ruby
+mailer = Xhive::Mailer.new(site, self, user.category)
+```
+
+And you add the key to the mapper creation step:
+
+```ruby
+mapper = site.mappers.new(:resource => 'notifications', :action => 'welcome', :key => 'spanish')
+mapper.page = email_for_spanish_users
+mapper.save
+```
+
+### Inline stylesheets for your emails
+
+If you add the inline widget to your cell routes you can use inline stylesheets within your email pages:
+
+```ruby
+Xhive::Router::Cells.draw do |router|
+  router.mount 'stylesheet/:id', :to => 'xhive/stylesheet#inline', :inline => true, :as => :inline_stylesheet
+end
+```
+
+Then you can add your stylesheet into your email page using the corresponding tag:
+
+`{% inline_stylesheet id:spain_users_stylesheet %}`
+
+This will create a `<style>` tag inside your email page and inject all the style rules.
+
 TODO
 ====
 
@@ -251,5 +340,6 @@ TODO
 
 Disclaimer
 ==========
-This is a work in progress and still a proof of concept. Use at your own risk :P.
+This is a work in progress and still a proof of concept. Use at your own risk.
 
+Please let me know of any problems, ideas, improvements, etc.
