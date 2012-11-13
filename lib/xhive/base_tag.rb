@@ -105,7 +105,7 @@ module Xhive
     # Private: checks if the tag is for inline rendering or not
     #
     def render_inline?(route, context)
-      route.inline && (context['inline'].nil? || context['inline'])
+      route.try(:inline) && (context['inline'].nil? || context['inline'])
     end
   end
 end
