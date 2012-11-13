@@ -9,7 +9,7 @@ module Xhive
       liquified = LiquidWrapper.liquify_objects(options)
       layout = ::Liquid::Template.parse("{{content}}").render({"content" => page.content})
       text = ::Liquid::Template.parse(layout).render(
-        {'page' => self, 'user' => controller.safe_user.presenter}.merge(liquified.stringify_keys),
+        {'page' => self, 'user' => controller.try(:safe_user).try(:presenter)}.merge(liquified.stringify_keys),
         :registers => {:controller => controller}
       )
       result = text.html_safe
