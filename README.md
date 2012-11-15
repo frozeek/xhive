@@ -332,6 +332,20 @@ Then you can add your stylesheet into your email page using the corresponding ta
 
 This will create a `<style>` tag inside your email page and inject all the style rules.
 
+### Inline pages for your emails
+
+If you add the inline widget to your cell routes you can use inline pages within your email pages:
+
+```ruby
+Xhive::Router::Cells.draw do |router|
+  router.mount 'page/:id', :to => 'xhive/page#inline', :inline => true, :as => :inline_page
+end
+```
+
+Then you can add your inline page into your email page using the corresponding tag:
+
+`{% inline_page id:email_header %}`
+
 TODO
 ====
 
