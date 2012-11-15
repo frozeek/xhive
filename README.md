@@ -39,10 +39,10 @@ rake xhive:install:migrations
 rake db:migrate
 ```
 
-Include the xhive javascript in your head tag.
+Include the xhive javascript loader in your head tag.
 
 ```erb
-<%= javascript_include_tag "xhive/application" %>
+<%= javascript_include_tag "xhive/loader" %>
 ```
 
 Include the custom stylesheets in your head tag.
