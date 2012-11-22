@@ -316,6 +316,9 @@ mapper.page = email_for_spanish_users
 mapper.save
 ```
 
+Note: the page title will be used as the email subject. You can also make use of the instance variables
+inside the page title as is treated as a Liquid template string.
+
 ### Inline stylesheets for your emails
 
 If you add the inline widget to your cell routes you can use inline stylesheets within your email pages:
