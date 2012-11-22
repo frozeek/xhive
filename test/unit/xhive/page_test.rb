@@ -21,5 +21,12 @@ module Xhive
 
       assert_equal page.present_content, 'my content'
     end
+
+    should 'be able to present title' do
+      page = Xhive::Page.new
+      page.stubs(:presenter).returns(stub(:render_title => 'my title'))
+
+      assert_equal page.present_title, 'my title'
+    end
   end
 end

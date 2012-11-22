@@ -19,5 +19,9 @@ module Xhive
     def present_content(opts={})
       presenter.render_content(opts)
     end
+
+    def present_title(opts={})
+      presenter.render_title(opts)
+    end
   end
 end

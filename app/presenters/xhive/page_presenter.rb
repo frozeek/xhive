@@ -5,6 +5,12 @@ module Xhive
 
     liquid_methods :name, :title, :content, :meta_keywords, :meta_description
 
+    # Public: renders the page content.
+    #
+    # options - The Hash containing the values to use inside the template.
+    #
+    # Returns: the rendered page content.
+    #
     def render_content(options={})
       liquified = LiquidWrapper.liquify_objects(options)
       layout = ::Liquid::Template.parse("{{content}}").render({"content" => page.content})
@@ -13,6 +19,23 @@ module Xhive
         :registers => {:controller => controller}
       )
       result = text.html_safe
+    rescue => e
+      logger.error "#{e.class.name}: #{e.message}"
+      logger.error e.backtrace.join("/n")
+      result = ''
+    ensure
+      return result
+    end
+
+    # Public: renders the page title.
+    #
+    # options - The Hash containing the values to use inside the template.
+    #
+    # Returns: the rendered page title.
+    #
+    def render_title(options={})
+      liquified = LiquidWrapper.liquify_objects(options)
+      result = ::Liquid::Template.parse(title).render(liquified.stringify_keys)
     rescue => e
       logger.error "#{e.class.name}: #{e.message}"
       logger.error e.backtrace.join("/n")
