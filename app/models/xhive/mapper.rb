@@ -37,7 +37,7 @@ module Xhive
     # Returns: true if created. False otherwise.
     #
     def self.map_resource(site, page, resource, action, key = nil)
-      mapper = find_map(site, resource, action, key)
+      mapper = find_exact_map(site, resource, action, key)
       mapper = new(:site_id => site.id, :resource => resource,
                    :action => action, :key => key.present? ? key : nil) unless mapper.present?
       mapper.page = page
@@ -64,9 +64,29 @@ module Xhive
     # action   - The String containing the action name filter.
     # key      - The String containing the key filter.
     #
-    # Returns: the mapper object or nil if not found.
+    # Returns:
+    #
+    #   - The mapper object if it finds a key.
+    #   - The default mapper if it does not find a key.
+    #   - Nil if there is no default mapper.
     #
     def self.find_map(site, resource, action, key)
+      scope  = where(:site_id => site.id)
+      scope  = scope.where(:resource => resource)
+      scope  = scope.where(:action => action)
+      mapper = scope.where(:key => key.present? ? key : nil).first || scope.where(:key => nil).first
+    end
+
+    # Private: looks for an exact mapper object.
+    #
+    # site     - The Site to look into.
+    # resource - The String containing the resource name filter.
+    # action   - The String containing the action name filter.
+    # key      - The String containing the key filter.
+    #
+    # Returns: the mapper object or nil if not found.
+    #
+    def self.find_exact_map(site, resource, action, key)
       mapper = where(:site_id => site.id)
       mapper = mapper.where(:resource => resource)
       mapper = mapper.where(:action => action)

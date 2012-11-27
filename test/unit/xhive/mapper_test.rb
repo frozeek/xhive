@@ -9,17 +9,26 @@ module Xhive
 
     setup do
       @site = Site.create(:name => "default", :domain => 'localhost')
-      @page = @site.pages.create(:name => "default", :title => "Default Page", :content => "<h1>Hello World</h1>")
+      @page = @site.pages.create(:name => "page", :title => "Specific Page", :content => "<h1>Hello Specific World</h1>")
       @mapper = @site.mappers.create(:resource => 'my_resource', :action => 'my_action', :key => 'my_key', :page_id => @page.id)
     end
 
     context 'page for' do
+      setup do
+        @default_page = @site.pages.create(:name => "default", :title => "Default Page", :content => "<h1>Hello World</h1>")
+        @default_mapper = @site.mappers.create(:resource => 'my_resource', :action => 'my_action', :page_id => @default_page.id)
+      end
+
       should 'return a valid page if mapper exists' do
         assert_equal @page, Xhive::Mapper.page_for(@site, 'my_resource', 'my_action', 'my_key')
       end
 
-      should 'return nil if mapper does not exist' do
-        assert_equal nil, Xhive::Mapper.page_for(@site, 'my_resource', 'my_action', 'my')
+      should 'return the default page if mapper does not exist' do
+        assert_equal @default_page, Xhive::Mapper.page_for(@site, 'my_resource', 'my_action', 'my')
+      end
+
+      should 'return nil if default mapper does not exist' do
+        assert_equal nil, Xhive::Mapper.page_for(@site, 'my_non_existing', 'no_action', 'my')
       end
     end
 
