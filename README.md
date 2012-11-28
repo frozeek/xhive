@@ -268,6 +268,26 @@ end
 
 Using this feature you can let the designers implement the HTML/CSS to display the posts in your site without your intervention.
 
+## Policy based mapping
+
+If you need more customization in the page mapping process, you can pass a policy class name as the last attribute.
+
+```ruby
+class MyPolicyClass
+  def call(opts={})
+    opts[:user].country == 'US' && opts[:user].age > 18
+  end
+end
+
+mapper = Xhive::Mapper.map_resource(site, posts_page, 'posts', 'index', post.id, 'MyPolicyClass')
+
+# It will only use the page if the user is an adult from the US
+render_page_with @post.id, :post => @post, :user => @user
+
+```
+Note: the mailer instance variables will be passed along to the policy class. This allows you to customize the email templates
+depending on the user properties. See below for ActionMailer integration.
+
 ## ActionMailer integration
 
 Using xhive you can extend the CMS capabilities to your system generated emails.
@@ -349,14 +369,17 @@ Then you can add your inline page into your email page using the corresponding t
 
 `{% inline_page id:email_header %}`
 
-TODO
-====
+## TODO
 
 * Remove as many dependencies as possible
 * Improve test coverage
 
-Disclaimer
-==========
+## Disclaimer
+
 This is a work in progress and still a proof of concept. Use at your own risk.
 
 Please let me know of any problems, ideas, improvements, etc.
+
+## Special Thanks
+
+* Thanks to [Daniel Cadenas](https://github.com/dcadenas) for the Policy class inspiration.
