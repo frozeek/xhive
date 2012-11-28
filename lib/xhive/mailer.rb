@@ -1,6 +1,6 @@
 module Xhive
   class Mailer
-    attr :site, :resource, :action, :key, :mailer, :content, :page
+    attr :site, :resource, :action, :key, :mailer, :content, :page, :vars
 
     def initialize(site, mailer, key = nil)
       @site = site
@@ -8,7 +8,8 @@ module Xhive
       @mailer = mailer
       @action = mailer.action_name
       @key = key
-      @page = Xhive::Mapper.page_for(@site, @resource, @action, @key)
+      @vars = mailer_instance_variables(mailer)
+      @page = Xhive::Mapper.page_for(@site, @resource, @action, @key, @vars)
     end
 
     # Public: sends the email to the specified recipients.
@@ -38,7 +39,7 @@ module Xhive
     #
     def content
       return @content if @content.present?
-      @content = page.present? ? page.present_content(mailer_instance_variables(mailer)) : mailer.render
+      @content = page.present? ? page.present_content(vars) : mailer.render
     end
 
     # Public: returns the email subject.
@@ -46,7 +47,7 @@ module Xhive
     # Returns: the rendered template or the mapped page content body.
     #
     def subject
-      @subject = page.present? ? page.present_title(mailer_instance_variables(mailer)) : nil
+      @subject = page.present? ? page.present_title(vars) : nil
     end
 
   private

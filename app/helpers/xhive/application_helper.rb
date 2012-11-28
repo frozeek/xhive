@@ -17,7 +17,7 @@ module Xhive
     # Returns: the rendered page.
     #
     def render_page_with(key = nil, options={}, &block)
-      page = Xhive::Mapper.page_for(current_site, controller_path, action_name, key)
+      page = Xhive::Mapper.page_for(current_site, controller_path, action_name, key, options)
       if page.present?
         render :inline => page.present_content(options), :layout => true
       else
