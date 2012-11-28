@@ -1,6 +1,12 @@
 require 'test_helper'
 
 module Xhive
+  class SamplePolicy
+    def self.call(attrs={})
+      attrs[:name] == "John" && attrs[:age] > 18
+    end
+  end
+
   class MapperTest < ActiveSupport::TestCase
     should validate_presence_of(:site)
     should validate_presence_of(:page)
@@ -10,25 +16,42 @@ module Xhive
     setup do
       @site = Site.create(:name => "default", :domain => 'localhost')
       @page = @site.pages.create(:name => "page", :title => "Specific Page", :content => "<h1>Hello Specific World</h1>")
-      @mapper = @site.mappers.create(:resource => 'my_resource', :action => 'my_action', :key => 'my_key', :page_id => @page.id)
+      Xhive::Mapper.map_resource(@site, @page, 'my_resource', 'my_action', 'my_key')
     end
 
     context 'page for' do
       setup do
         @default_page = @site.pages.create(:name => "default", :title => "Default Page", :content => "<h1>Hello World</h1>")
-        @default_mapper = @site.mappers.create(:resource => 'my_resource', :action => 'my_action', :page_id => @default_page.id)
+        Xhive::Mapper.map_resource(@site, @default_page, 'my_resource', 'my_action')
       end
 
-      should 'return a valid page if mapper exists' do
-        assert_equal @page, Xhive::Mapper.page_for(@site, 'my_resource', 'my_action', 'my_key')
+      context 'using a plain text key' do
+        should 'return a valid page if mapper exists' do
+          assert_equal @page, Xhive::Mapper.page_for(@site, 'my_resource', 'my_action', 'my_key')
+        end
+
+        should 'return the default page if mapper does not exist' do
+          assert_equal @default_page, Xhive::Mapper.page_for(@site, 'my_resource', 'my_action', 'my')
+        end
+
+        should 'return nil if default mapper does not exist' do
+          assert_equal nil, Xhive::Mapper.page_for(@site, 'my_non_existing', 'no_action', 'my')
+        end
       end
 
-      should 'return the default page if mapper does not exist' do
-        assert_equal @default_page, Xhive::Mapper.page_for(@site, 'my_resource', 'my_action', 'my')
-      end
+      context 'using a policy filtered mapper' do
+        setup do
+          @policy_page = @site.pages.create(:name => "policy", :title => "Policy Page", :content => "<h1>Hello Policy Page</h1>")
+          Xhive::Mapper.map_resource(@site, @policy_page, 'my_resource', 'my_action', nil, 'Xhive::SamplePolicy')
+        end
 
-      should 'return nil if default mapper does not exist' do
-        assert_equal nil, Xhive::Mapper.page_for(@site, 'my_non_existing', 'no_action', 'my')
+        should 'return the policy page if the policy matches' do
+          assert_equal @policy_page, Xhive::Mapper.page_for(@site, 'my_resource', 'my_action', nil, { :name => "John", :age => 20 })
+        end
+
+        should 'return the default page if the policy does not match' do
+          assert_equal @default_page, Xhive::Mapper.page_for(@site, 'my_resource', 'my_action', nil, { :name => "Rick", :age => 15 })
+        end
       end
     end
 
