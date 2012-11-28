@@ -39,6 +39,8 @@ module Xhive
     # Returns: true if created. False otherwise.
     #
     def self.map_resource(site, page, resource, action, key = nil, policy = nil)
+      check_policy_class(policy) if policy.present?
+
       mapper = find_exact_map(site, resource, action, key, policy)
       mapper = new(:site_id => site.id, :resource => resource,
                    :action => action, :policy => policy,
@@ -56,6 +58,16 @@ module Xhive
     #
     def self.all_by_resource(site, resource)
       where(:site_id => site.id).where(:resource => resource)
+    end
+
+    class InvalidPolicyError < StandardError
+      def initialize(name)
+        @name = name
+      end
+
+      def message
+        "#{@name} must implement a ::call method"
+      end
     end
 
   private
@@ -130,6 +142,11 @@ module Xhive
       result = true
     ensure
       return result
+    end
+
+    def self.check_policy_class(policy)
+      klass = policy.constantize
+      fail InvalidPolicyError.new(policy) unless klass.respond_to?(:call)
     end
   end
 end
