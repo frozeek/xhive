@@ -16,6 +16,10 @@ module Xhive
       @object.id
     end
 
+    def safe_user
+      controller.try(:safe_user).try(:presenter)
+    end
+
   private
 
     def controller

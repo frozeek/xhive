@@ -12,19 +12,12 @@ module Xhive
     # Returns: the rendered page content.
     #
     def render_content(options={})
-      liquified = LiquidWrapper.liquify_objects(options)
       layout = ::Liquid::Template.parse("{{content}}").render({"content" => page.content})
-      text = ::Liquid::Template.parse(layout).render(
-        {'page' => self, 'user' => controller.try(:safe_user).try(:presenter)}.merge(liquified.stringify_keys),
-        :registers => {:controller => controller}
-      )
-      result = text.html_safe
+      result = ::Liquid::Template.parse(layout).render(optional_data(options), :registers => {:controller => controller}).html_safe
     rescue => e
-      logger.error "#{e.class.name}: #{e.message}"
-      logger.error e.backtrace.join("/n")
-      result = ''
+      log_error(e)
     ensure
-      return result
+      return result.to_s
     end
 
     # Public: renders the page title.
@@ -34,14 +27,25 @@ module Xhive
     # Returns: the rendered page title.
     #
     def render_title(options={})
-      liquified = LiquidWrapper.liquify_objects(options)
-      result = ::Liquid::Template.parse(title).render(liquified.stringify_keys)
+      result = ::Liquid::Template.parse(title).render(optional_data(options))
     rescue => e
+      log_error(e)
+    ensure
+      return result.to_s
+    end
+
+  private
+
+    def optional_data(options)
+      # wrap the options data to use it from liquid
+      liquified = LiquidWrapper.liquify_objects(options)
+      # build the optional data hash
+      {'page' => self, 'user' => safe_user}.merge(liquified.stringify_keys)
+    end
+
+    def log_error(e)
       logger.error "#{e.class.name}: #{e.message}"
       logger.error e.backtrace.join("/n")
-      result = ''
-    ensure
-      return result
     end
   end
 end
