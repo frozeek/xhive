@@ -1,3 +1,3 @@
 module Xhive
-  VERSION = "1.5.1.pre"
+  VERSION = "1.6.0"
 end

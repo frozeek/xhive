@@ -9,11 +9,12 @@ Gem::Specification.new do |s|
   s.version     = Xhive::VERSION
   s.authors     = ["frozeek"]
   s.email       = ["marcelo@frozeek.com"]
+  s.licenses    = ["MIT"]
   s.homepage    = "http://github.com/frozeek/xhive"
   s.summary     = "Simple Rails AJAX CMS"
   s.description = "Simple Rails AJAX CMS"
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
+  s.files = Dir["{app,config,db,lib}/**/*"] + ["LICENSE", "Rakefile", "README.md"]
 
   s.add_dependency "rails", "~> 3.2"
   s.add_dependency "jquery-rails"
