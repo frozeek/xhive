@@ -43,7 +43,7 @@ module Xhive
 
       mapper = find_exact_map(site, resource, action, key, policy)
       mapper = new(:site_id => site.id, :resource => resource,
-                   :action => action, :policy => policy,
+                   :action => action, :policy => policy.present? ? policy : nil,
                    :key => key.present? ? key : nil) unless mapper.present?
       mapper.page = page
       mapper.save
