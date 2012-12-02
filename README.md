@@ -245,7 +245,7 @@ mapper = Xhive::Mapper.map_resource(site, posts_page, 'posts', 'index')
 If you want to map the page to a specific post
 
 ```ruby
-mapper = Xhive::Mapper.map_resource(site, posts_page, 'posts', 'index', post.id)
+mapper = Xhive::Mapper.map_resource(site, posts_page, 'posts', 'show', post.id)
 ```
 
 From your posts controller, render the posts page
@@ -279,7 +279,7 @@ class MyPolicyClass
   end
 end
 
-mapper = Xhive::Mapper.map_resource(site, posts_page, 'posts', 'index', post.id, 'MyPolicyClass')
+mapper = Xhive::Mapper.map_resource(site, posts_page, 'posts', 'show', post.id, 'MyPolicyClass')
 
 # It will only use the page if the user is an adult from the US
 render_page_with @post.id, :post => @post, :user => @user
@@ -371,6 +371,7 @@ Then you can add your inline page into your email page using the corresponding t
 
 ## TODO
 
+* Transform inline stylesheet images URLs to absolute URLs to use with ActionMailer
 * Remove as many dependencies as possible
 * Improve test coverage
 
