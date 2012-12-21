@@ -371,7 +371,6 @@ Then you can add your inline page into your email page using the corresponding t
 
 ## TODO
 
-* Transform inline stylesheet images URLs to absolute URLs to use with ActionMailer
 * Remove as many dependencies as possible
 * Improve test coverage
 

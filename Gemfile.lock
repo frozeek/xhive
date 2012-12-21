@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    xhive (1.6.1)
+    xhive (1.6.2)
       carrierwave
       cells (= 3.8.5)
       friendly_id (~> 4.0.1)

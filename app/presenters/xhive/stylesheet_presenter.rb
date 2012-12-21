@@ -15,7 +15,7 @@ module Xhive
 
     def self.all_compressed(stylesheets)
       stylesheets.inject('') do |result, stylesheet|
-        result << compress(content)
+        result << compress(stylesheet.content)
       end
     end
 
