@@ -18,6 +18,12 @@ module Xhive
 
       assert_equal title, "Default Page for John"
     end
+
+    should 'use absolute urls for the images' do
+      @page.content = "<img src='/images/sample.png'/>"
+
+      assert_equal "<img src='http://localhost:3000/images/sample.png'/>", @page.presenter.render_content
+    end
   end
 end
 

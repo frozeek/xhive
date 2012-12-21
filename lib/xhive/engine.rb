@@ -16,7 +16,7 @@ module Xhive
         self.class_variable_set('@@current_controller', nil)
       end
     end
-    initializer "xhive.load_all_controller_classes", :after=> :disable_dependency_loading do
+    initializer "xhive.load_all_controller_classes", :after => :disable_dependency_loading do
       ActiveSupport.on_load(:action_controller) do
         Dir[Rails.root.join("app/controllers/**/*.rb")].each {|f| require f}
         Xhive::Router::Cells.process_routes

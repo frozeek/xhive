@@ -17,7 +17,7 @@ module Xhive
     rescue => e
       log_error(e)
     ensure
-      return result.to_s
+      return filter_images_urls(result.to_s)
     end
 
     # Public: renders the page title.
@@ -41,6 +41,12 @@ module Xhive
       liquified = LiquidWrapper.liquify_objects(options)
       # build the optional data hash
       {'page' => self, 'user' => safe_user}.merge(liquified.stringify_keys)
+    end
+
+    def filter_images_urls(content)
+      images_path = base_images_path
+      # This only works if string is interpolated o_O
+      "#{content}".gsub(/src\=['"]?#{images_path}\/([^\'^\"]+)['"]?/) {|| "src='#{url_for('image', $1)}'"}
     end
 
     def log_error(e)
