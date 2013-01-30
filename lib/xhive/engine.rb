@@ -22,5 +22,6 @@ module Xhive
         Xhive::Router::Cells.process_routes
       end
     end
+    ActiveRecord::Base.send(:include, Xhive::ActiveRecordExtensions)
   end
 end

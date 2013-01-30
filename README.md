@@ -268,6 +268,46 @@ end
 
 Using this feature you can let the designers implement the HTML/CSS to display the posts in your site without your intervention.
 
+## Page mounting
+
+You can also add pages to your ActiveRecord model using the *mount_page* statement:
+
+```ruby
+class Post < ActiveRecord::Base
+  mount_page :mini
+  mount_page :full
+end
+
+mini_page = Xhive::Page.create(:name => 'mini-post', :title => 'Minimized Post', :content => "<a href='/posts/{{post.id}}'>{{post.title}}</a>")
+full_page = Xhive::Page.create(:name => 'post', :title => 'Post', :content => "<h1>{{post.title}}</h1><p>{{post.body}}</p>")
+
+post = Post.create(:title => "My awesome post", :body => "This is an awesome post!")
+post.mini = mini_page
+post.full = full_page
+```
+
+Then you can display the pages in a view:
+
+```ruby
+<% # Render minimized content %>
+<%= post.mini_page_content %>
+
+<% # Render full content %>
+<%= post.full_page_content %>
+```
+
+You get:
+
+```html
+<a href='/posts/1'>My awesome post</a>
+
+<h1>My awesome post</h1><p>This is an awesome post!</p>
+```
+
+The post object gets injected into the page render method so you can use all its attributes inside the page.
+
+Caveat: the mount_page statement currently supports single-site use. Multi-site support is intented to be added in the near future.
+
 ## Policy based mapping
 
 If you need more customization in the page mapping process, you can pass a policy class name as the last attribute.

@@ -1,11 +1,7 @@
-class Post
-  attr :title, :body
+class Post < ActiveRecord::Base
+  attr_accessible :body, :title
 
   liquid_methods :title, :body
 
-  def initialize(attrs={})
-    @id = attrs[:id]
-    @title = attrs[:title]
-    @body = attrs[:body]
-  end
+  mount_page :page
 end
