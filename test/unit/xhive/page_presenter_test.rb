@@ -24,6 +24,17 @@ module Xhive
 
       assert_equal "<img src='//localhost:3000/images/sample.png'/>", @page.presenter.render_content
     end
+
+    should 'remove the port 80' do
+      opts = BasePresenter.default_url_options
+      BasePresenter.default_url_options = { :host => 'localhost', :port => '80' }
+
+      @page.content = "<img src='/images/sample.png'/>"
+
+      assert_equal "<img src='//localhost/images/sample.png'/>", @page.presenter.render_content
+
+      BasePresenter.default_url_options = opts
+    end
   end
 end
 

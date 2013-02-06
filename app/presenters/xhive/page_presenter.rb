@@ -50,7 +50,7 @@ module Xhive
     end
 
     def image_url(image)
-      url_for('image', image).gsub(/http:|https:/,'')
+      url_for('image', image).gsub(/http:|https:|:80|:443/,'')
     end
 
     def log_error(e)
