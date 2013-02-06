@@ -26,8 +26,8 @@ module Xhive
         end
 
         # Define content
-        define_method("#{attr}_content") do
-          self.send(attr.to_sym).present_content(self.class.name.downcase.to_sym => self)
+        define_method("#{attr}_content") do |opts={}|
+          self.send(attr.to_sym).present_content(opts.merge({self.class.name.downcase.to_sym => self}))
         end
       end
     end
