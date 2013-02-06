@@ -46,7 +46,11 @@ module Xhive
     def filter_images_urls(content)
       images_path = base_images_path
       # This only works if string is interpolated o_O
-      "#{content}".gsub(/src\=['"]?#{images_path}\/([^\'^\"]+)['"]?/) {|| "src='#{url_for('image', $1)}'"}
+      "#{content}".gsub(/src\=['"]?#{images_path}\/([^\'^\"]+)['"]?/) {|| "src='#{image_url($1)}'"}
+    end
+
+    def image_url(image)
+      url_for('image', image).gsub(/http:|https:/,'')
     end
 
     def log_error(e)
