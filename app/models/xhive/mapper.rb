@@ -49,6 +49,24 @@ module Xhive
       mapper.save
     end
 
+    # Public: deletes a mapper for a specific resource.
+    #
+    # site     - The Site to associate the mapper to.
+    # resource - The String containing the associated resource name.
+    # action   - The String containing the associated action name.
+    # key      - The String containing the associated key.
+    # policy   - The String containing the policy class.
+    #
+    # Returns: true if created. False otherwise.
+    #
+    def self.unmap_resource(site, resource, action, key = nil, policy = nil)
+      check_policy_class(policy) if policy.present?
+
+      mapper = find_exact_map(site, resource, action, key, policy)
+
+      mapper.delete if mapper.present?
+    end
+
     # Public: returns all the mappers for a specific resource.
     #
     # site     - The Site owner of the mappers.

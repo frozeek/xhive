@@ -88,5 +88,17 @@ module Xhive
         assert_equal new_page, Xhive::Mapper.page_for(@site, 'my_resource', 'my_action', 'my_key')
       end
     end
+
+    context 'unmap resource' do
+      should 'be able to unmap a previously mapped resource' do
+        Xhive::Mapper.map_resource(@site, @page, 'new_resource', 'my_action', 'key')
+
+        assert_equal @page, Xhive::Mapper.page_for(@site, 'new_resource', 'my_action', 'key')
+
+        Xhive::Mapper.unmap_resource(@site, 'new_resource', 'my_action', 'key')
+
+        assert_equal nil, Xhive::Mapper.page_for(@site, 'new_resource', 'my_action', 'key')
+      end
+    end
   end
 end

@@ -7,13 +7,19 @@ class PostTest < ActiveSupport::TestCase
   end
 
   context 'mount page' do
-    should 'be able to assign and retrieve a page' do
+    should 'be able to assign, retrieve and remove a page' do
       @post = Post.create(:title => "My Post", :body => '<h1>Hello World</h1>')
       @post.page = @page
 
       @post.reload
 
       assert_equal @page, @post.page
+
+      @post.page = nil
+
+      @post.reload
+
+      assert_equal nil, @post.page
     end
 
     should 'be able to render page content' do
